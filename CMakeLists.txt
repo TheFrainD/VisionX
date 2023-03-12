@@ -2,9 +2,12 @@ cmake_minimum_required(VERSION 3.16)
 project(VisionX)
 set(CMAKE_CXX_STANDARD 20)
 
+cmake_policy(SET CMP0091 NEW)
+
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 option(VISIONX_BUILD_TESTS "Build tests" OFF)
+set(VISIONX_CONAN_PROFILE "default" CACHE STRING "conan profile")
 
 message(STATUS "VISIONX_BUILD_TESTS = ${VISIONX_BUILD_TESTS}")
 
@@ -14,6 +17,12 @@ message(STATUS "C Compiler executable: ${CMAKE_C_COMPILER}")
 message(STATUS "CXX Compiler executable: ${CMAKE_CXX_COMPILER}")
 message(STATUS "Linker executable: ${CMAKE_LINKER}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+
+include(conan_setup)
+
+set(VISIONX_VERSION_MAJOR 0)
+set(VISIONX_VERSION_MINOR 1)
+set(VISIONX_VERSION_PATCH 0)
 
 add_subdirectory(src)
 

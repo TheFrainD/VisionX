@@ -25,3 +25,10 @@ target_include_directories(
     PUBLIC
     ${PROJECT_SOURCE_DIR}/include
 )
+
+target_link_libraries(
+    ${VISIONX_EXECUTABLE_NAME}
+
+    PUBLIC
+    ${CONAN_LIBS}
+)
