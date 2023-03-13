@@ -24,11 +24,13 @@ target_include_directories(
 
     PUBLIC
     ${PROJECT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_BINARY_DIR}/include/
 )
+
+find_package(OpenGL REQUIRED)
 
 target_link_libraries(
     ${VISIONX_EXECUTABLE_NAME}
 
     PUBLIC
-    ${CONAN_LIBS}
 )
