@@ -22,6 +22,6 @@ set(VISIONX_VERSION_PATCH 0)
 
 add_subdirectory(src)
 
-if(VISIONX_BUILD_TESTS)
+if (VISIONX_BUILD_TESTS)
     add_subdirectory(tests)
-endif()
+endif ()

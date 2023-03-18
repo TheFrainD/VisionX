@@ -3,10 +3,10 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-#include <iostream>
+#include "core/logger.h"
 
 static void glfw_error_callback(int error_code, const char* message) {
-    std::cerr << "GLFW Error #" << error_code << ": " << message << std::endl;
+    VX_LOG_ERROR("GLFW Error #{}: {}", error_code, message);
 }
 
 namespace vx::core {
@@ -19,8 +19,10 @@ Window::Window(const std::uint32_t width, const std::uint32_t height, const std:
 Window::~Window() {
     if (window_) {
         glfwDestroyWindow(window_);
+        VX_LOG_DEBUG("Window destroyed");
     }
     glfwTerminate();
+    VX_LOG_DEBUG("GLFW terminated");
 }
 
 void Window::Setup() {
@@ -29,6 +31,8 @@ void Window::Setup() {
     if (!glfwInit()) {
         throw std::runtime_error {"Could not initialize GLFW"};
     }
+
+    VX_LOG_DEBUG("GLFW initialized");
 
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -41,6 +45,8 @@ void Window::Setup() {
         glfwTerminate();
         throw std::runtime_error {"Could not create window"};
     }
+
+    VX_LOG_DEBUG("Window created");
 
     glfwSetWindowUserPointer(window_, &data_);
 
@@ -60,7 +66,14 @@ void Window::Setup() {
         throw std::runtime_error {"Could not initialize GLAD"};
     }
 
+    VX_LOG_DEBUG("GLAD initialized");
+
     glViewport(0, 0, data_.width, data_.height);
+
+    VX_LOG_DEBUG("Vendor: {}", reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
+    VX_LOG_DEBUG("Renderer: {}", reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
+    VX_LOG_DEBUG("OpenGL version: {}", reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+    VX_LOG_DEBUG("GLSL version: {}", reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION)));
 }
 
 void Window::Update() const noexcept {

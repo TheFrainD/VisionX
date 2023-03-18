@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "core/window.h"
 
 namespace vx::core {
@@ -11,7 +13,7 @@ public:
     void Run();
 
 private:
-    Window window_;
+    std::unique_ptr<Window> window_;
     bool running_ {};
 };
 

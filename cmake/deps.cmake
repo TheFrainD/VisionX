@@ -1,2 +1,3 @@
-include(cmake/glfw.cmake)
-include(cmake/glad.cmake)
+include(glfw)
+include(glad)
+include(spdlog)
