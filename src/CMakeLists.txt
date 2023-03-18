@@ -1,7 +1,7 @@
 set(VISIONX_EXECUTABLE_NAME VisionX)
-set(VISIONX_SOURCE_FILES main.cpp)
+file(GLOB_RECURSE VISIONX_SOURCE_FILES *.cpp)
 
-add_executable(${VISIONX_EXECUTABLE_NAME} ${VISIONX_SOURCE_FILES})
+add_executable(${VISIONX_EXECUTABLE_NAME} ${VISIONX_SOURCE_FILES} core/window.cpp)
 
 set_target_properties(
     ${VISIONX_EXECUTABLE_NAME} PROPERTIES
@@ -24,7 +24,7 @@ target_include_directories(
 
     PUBLIC
     ${PROJECT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_BINARY_DIR}/include/
+    ${CMAKE_CURRENT_BINARY_DIR}/include
 )
 
 find_package(OpenGL REQUIRED)
