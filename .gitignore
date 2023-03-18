@@ -39,3 +39,7 @@ cmake-build-*/
 # project files
 .idea/
 .vs/
+
+# mac specific
+.DS_Store
+.cache/

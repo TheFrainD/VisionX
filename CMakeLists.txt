@@ -3,6 +3,7 @@ project(VisionX)
 set(CMAKE_CXX_STANDARD 20)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+include(deps)
 
 option(VISIONX_BUILD_TESTS "Build tests" OFF)
 
@@ -21,6 +22,6 @@ set(VISIONX_VERSION_PATCH 0)
 
 add_subdirectory(src)
 
-if(VISIONX_BUILD_TESTS)
+if (VISIONX_BUILD_TESTS)
     add_subdirectory(tests)
-endif()
+endif ()
