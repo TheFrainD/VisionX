@@ -29,8 +29,17 @@ target_include_directories(
 
 find_package(OpenGL REQUIRED)
 
+target_compile_definitions(
+    ${VISIONX_EXECUTABLE_NAME}
+    
+    PUBLIC
+    GLFW_INCLUDE_NONE
+)
+
 target_link_libraries(
     ${VISIONX_EXECUTABLE_NAME}
 
     PUBLIC
+    ${GLFW_LIB}
+    ${GLAD_LIB}
 )
