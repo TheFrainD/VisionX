@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
+#include "core/input/input.h"
 #include "core/logger.h"
 
 static void glfw_error_callback(int error_code, const char* message) {
@@ -55,6 +56,19 @@ void Window::Setup() {
         data->width      = width;
         data->height     = height;
         glViewport(0, 0, width, height);
+    });
+
+    glfwSetKeyCallback(window_, [](GLFWwindow*, int key, int, int action, int) {
+        input::Input::keyboard_.keys[key] = (action != GLFW_RELEASE);
+    });
+
+    glfwSetMouseButtonCallback(window_, [](GLFWwindow*, int button, int action, int) {
+        input::Input::mouse_.buttons[button] = (action != GLFW_RELEASE);
+    });
+
+    glfwSetCursorPosCallback(window_, [](GLFWwindow*, double x, double y) {
+        input::Input::mouse_.previousPosition = input::Input::mouse_.position;
+        input::Input::mouse_.position         = {x, y};
     });
 
     glfwMakeContextCurrent(window_);

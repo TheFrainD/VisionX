@@ -5,6 +5,7 @@
 
 #include "core/input/keyboard.h"
 #include "core/input/mouse.h"
+#include "core/window.h"
 
 namespace vx::core::input {
 
@@ -39,6 +40,8 @@ public:
 private:
     static Keyboard keyboard_;
     static Mouse mouse_;
+
+    friend Window;
 };
 
 }  // namespace vx::core::input
