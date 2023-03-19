@@ -14,7 +14,8 @@ namespace vx::core {
 Application::Application() {
     Logger::Setup("log.txt");
 
-    window_ = std::make_unique<Window>(kWindowWidth, kWindowHeight, kWindowTitle);
+    input_  = std::make_shared<input::Input>();
+    window_ = std::make_unique<Window>(kWindowWidth, kWindowHeight, kWindowTitle, input_);
 }
 
 void Application::Run() {
@@ -22,6 +23,10 @@ void Application::Run() {
 
     while (running_) {
         window_->Update();
+
+        if (input_->IsKeyDown(input::Key::Escape)) {
+            running_ = false;
+        }
 
         if (window_->ShouldClose()) {
             running_ = false;

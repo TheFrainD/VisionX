@@ -5,7 +5,6 @@
 
 #include "core/input/keyboard.h"
 #include "core/input/mouse.h"
-#include "core/window.h"
 
 namespace vx::core::input {
 
@@ -17,31 +16,32 @@ public:
 
 class InvalidKeyCodeException : public InputException {
 public:
-    explicit InvalidKeyCodeException(const Key key)
-        : InputException("Invalid key code given: " + std::to_string(static_cast<std::uint16_t>(key))) {}
+    explicit InvalidKeyCodeException(const std::uint16_t code)
+        : InputException("Invalid key code given: " + std::to_string(code)) {}
 };
 
 class InvalidMouseButtonCodeException : public InputException {
 public:
-    explicit InvalidMouseButtonCodeException(const MouseButton button)
-        : InputException("Invalid mouse button code given: " + std::to_string(static_cast<std::uint16_t>(button))) {}
+    explicit InvalidMouseButtonCodeException(const std::uint16_t code)
+        : InputException("Invalid mouse button code given: " + std::to_string(code)) {}
 };
 
 class Input {
 public:
-    Input() = delete;
+    [[nodiscard]] bool IsKeyDown(Key key) const;
+    [[nodiscard]] bool IsMouseButtonDown(MouseButton mouse_button) const;
 
-    [[nodiscard]] static bool IsKeyDown(Key key);
-    [[nodiscard]] static bool IsMouseButtonDown(MouseButton mouse_button);
+    [[nodiscard]] glm::vec2 GetMousePosition() const noexcept;
+    [[nodiscard]] glm::vec2 GetMousePreviousPosition() const noexcept;
 
-    [[nodiscard]] static glm::vec2 GetMousePosition() noexcept;
-    [[nodiscard]] static glm::vec2 GetMousePreviousPosition() noexcept;
+    void SetKey(std::uint16_t code, bool state);
+    void SetMouseButton(std::uint16_t code, bool state);
+
+    void SetMousePosition(const glm::vec2& position) noexcept;
 
 private:
-    static Keyboard keyboard_;
-    static Mouse mouse_;
-
-    friend Window;
+    Keyboard keyboard_;
+    Mouse mouse_;
 };
 
 }  // namespace vx::core::input

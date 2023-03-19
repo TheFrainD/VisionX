@@ -3,7 +3,6 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-#include "core/input/input.h"
 #include "core/logger.h"
 
 static void glfw_error_callback(int error_code, const char* message) {
@@ -12,8 +11,9 @@ static void glfw_error_callback(int error_code, const char* message) {
 
 namespace vx::core {
 
-Window::Window(const std::uint32_t width, const std::uint32_t height, const std::string& title)
-    : data_ {width, height, title} {
+Window::Window(const std::uint32_t width, const std::uint32_t height, const std::string& title,
+               const std::shared_ptr<input::Input>& input)
+    : data_ {width, height, title, input} {
     Setup();
 }
 
@@ -58,17 +58,19 @@ void Window::Setup() {
         glViewport(0, 0, width, height);
     });
 
-    glfwSetKeyCallback(window_, [](GLFWwindow*, int key, int, int action, int) {
-        input::Input::keyboard_.keys[key] = (action != GLFW_RELEASE);
+    glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int, int action, int) {
+        auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        data->input->SetKey(key, action != GLFW_RELEASE);
     });
 
-    glfwSetMouseButtonCallback(window_, [](GLFWwindow*, int button, int action, int) {
-        input::Input::mouse_.buttons[button] = (action != GLFW_RELEASE);
+    glfwSetMouseButtonCallback(window_, [](GLFWwindow* window, int button, int action, int) {
+        auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        data->input->SetMouseButton(button, action != GLFW_RELEASE);
     });
 
-    glfwSetCursorPosCallback(window_, [](GLFWwindow*, double x, double y) {
-        input::Input::mouse_.previousPosition = input::Input::mouse_.position;
-        input::Input::mouse_.position         = {x, y};
+    glfwSetCursorPosCallback(window_, [](GLFWwindow* window, double x, double y) {
+        auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        data->input->SetMousePosition({x, y});
     });
 
     glfwMakeContextCurrent(window_);
