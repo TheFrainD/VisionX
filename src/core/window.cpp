@@ -60,17 +60,22 @@ void Window::Setup() {
 
     glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int, int action, int) {
         auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-        data->input->SetKey(key, action != GLFW_RELEASE);
+        data->input->SetKey(static_cast<input::Key>(key), action != GLFW_RELEASE);
     });
 
     glfwSetMouseButtonCallback(window_, [](GLFWwindow* window, int button, int action, int) {
         auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-        data->input->SetMouseButton(button, action != GLFW_RELEASE);
+        data->input->SetMouseButton(static_cast<input::MouseButton>(button), action != GLFW_RELEASE);
     });
 
     glfwSetCursorPosCallback(window_, [](GLFWwindow* window, double x, double y) {
         auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
         data->input->SetMousePosition({x, y});
+    });
+
+    glfwSetScrollCallback(window_, [](GLFWwindow* window, double x_offset, double y_offset) {
+        auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        data->input->SetScrollOffset({x_offset, y_offset});
     });
 
     glfwMakeContextCurrent(window_);

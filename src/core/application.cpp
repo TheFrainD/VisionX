@@ -2,7 +2,9 @@
 
 #include <memory>
 
+#include "core/input/events/key_event.h"
 #include "core/logger.h"
+#include "event/manager.h"
 
 // Temp
 constexpr auto kWindowWidth  = 800;
@@ -24,9 +26,12 @@ void Application::Run() {
     while (running_) {
         window_->Update();
 
-        if (input_->IsKeyDown(input::Key::Escape)) {
-            running_ = false;
-        }
+        event::Manager::Subscribe<input::KeyPressedEvent>([this](event::Event& event) {
+            const auto& key_event {reinterpret_cast<input::KeyPressedEvent&>(event)};
+            if (key_event.GetKey() == input::Key::Escape) {
+                this->running_ = false;
+            }
+        });
 
         if (window_->ShouldClose()) {
             running_ = false;

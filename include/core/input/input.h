@@ -5,6 +5,9 @@
 
 #include "core/input/keyboard.h"
 #include "core/input/mouse.h"
+#include "core/input/events/key_event.h"
+#include "core/input/events/mouse_button_event.h"
+#include "core/input/events/mouse_event.h"
 
 namespace vx::core::input {
 
@@ -33,11 +36,12 @@ public:
 
     [[nodiscard]] glm::vec2 GetMousePosition() const noexcept;
     [[nodiscard]] glm::vec2 GetMousePreviousPosition() const noexcept;
+    [[nodiscard]] glm::vec2 GetScrollOffset() const noexcept;
 
-    void SetKey(std::uint16_t code, bool state);
-    void SetMouseButton(std::uint16_t code, bool state);
-
+    void SetKey(Key key, bool state);
+    void SetMouseButton(MouseButton mouse_button, bool state);
     void SetMousePosition(const glm::vec2& position) noexcept;
+    void SetScrollOffset(const glm::vec2& offset) noexcept;
 
 private:
     Keyboard keyboard_;

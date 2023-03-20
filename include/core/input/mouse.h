@@ -11,6 +11,7 @@ struct Mouse {
     std::array<bool, static_cast<std::uint16_t>(MouseButton::Last) + 1> buttons;
     glm::vec2 position;
     glm::vec2 previousPosition;
+    glm::vec2 scrollOffset;
 };
 
 }  // namespace vx::core::input

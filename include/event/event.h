@@ -3,10 +3,12 @@
 #include <string>
 
 namespace vx::event {
+
 using EventType = std::string;
 
 class Event {
 public:
+    Event()          = default;
     virtual ~Event() = default;
 
     Event(const Event&)            = delete;
@@ -24,7 +26,7 @@ private:
     bool handled_ {};
 };
 
-#define VXEVENT(TYPE)                                                                   \
-    [[nodiscard]] virtual EventType GetType() const noexcept override { return #TYPE; } \
-    static EventType StaticType() noexcept { return #TYPE; }
+#define VXEVENT(TYPE)                                                                              \
+    [[nodiscard]] virtual vx::event::EventType GetType() const noexcept override { return #TYPE; } \
+    static vx::event::EventType StaticType() noexcept { return #TYPE; }
 }  // namespace vx::event
