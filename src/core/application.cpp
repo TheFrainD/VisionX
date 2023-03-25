@@ -26,16 +26,16 @@ void Application::Run() {
     while (running_) {
         window_->Update();
 
-        event::Manager::Subscribe<input::KeyPressedEvent>([this](event::Event& event) {
-            const auto& key_event {reinterpret_cast<input::KeyPressedEvent&>(event)};
-            if (key_event.GetKey() == input::Key::Escape) {
-                this->running_ = false;
-            }
-        });
+        event::Manager::Subscribe<input::KeyPressedEvent>(VXEVENT_MCALLBACK(onKeyPressed, input::KeyPressedEvent));
 
         if (window_->ShouldClose()) {
             running_ = false;
         }
+    }
+}
+void Application::onKeyPressed(input::KeyPressedEvent& event) {
+    if (event.GetKey() == input::Key::Escape) {
+        running_ = false;
     }
 }
 

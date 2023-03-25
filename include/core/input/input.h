@@ -3,11 +3,11 @@
 #include <exception>
 #include <string>
 
-#include "core/input/keyboard.h"
-#include "core/input/mouse.h"
 #include "core/input/events/key_event.h"
 #include "core/input/events/mouse_button_event.h"
 #include "core/input/events/mouse_event.h"
+#include "core/input/keyboard.h"
+#include "core/input/mouse.h"
 
 namespace vx::core::input {
 
