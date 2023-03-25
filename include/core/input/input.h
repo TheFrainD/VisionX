@@ -1,6 +1,6 @@
 #pragma once
 
-#include <exception>
+#include <stdexcept>
 #include <string>
 
 #include "core/input/events/key_event.h"
