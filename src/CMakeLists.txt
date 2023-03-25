@@ -43,4 +43,5 @@ target_link_libraries(
         ${GLFW_LIB}
         ${GLAD_LIB}
         ${SPDLOG_LIB}
+        ${GLM_LIB}
 )

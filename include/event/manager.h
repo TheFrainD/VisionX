@@ -42,4 +42,7 @@ private:
     static std::map<EventType, std::vector<EventCallback>> callbacks_;
 };
 
+// Callback macro for class methods
+#define VXEVENT_MCALLBACK(FUN, TYPE) ([this](vx::event::Event& event) { this->FUN(dynamic_cast<TYPE&>(event)); })
+
 }  // namespace vx::event

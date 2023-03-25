@@ -11,8 +11,9 @@ static void glfw_error_callback(int error_code, const char* message) {
 
 namespace vx::core {
 
-Window::Window(const std::uint32_t width, const std::uint32_t height, const std::string& title)
-    : data_ {width, height, title} {
+Window::Window(const std::uint32_t width, const std::uint32_t height, const std::string& title,
+               const std::shared_ptr<input::Input>& input)
+    : data_ {width, height, title, input} {
     Setup();
 }
 
@@ -55,6 +56,26 @@ void Window::Setup() {
         data->width      = width;
         data->height     = height;
         glViewport(0, 0, width, height);
+    });
+
+    glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int, int action, int) {
+        auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        data->input->SetKey(static_cast<input::Key>(key), action != GLFW_RELEASE);
+    });
+
+    glfwSetMouseButtonCallback(window_, [](GLFWwindow* window, int button, int action, int) {
+        auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        data->input->SetMouseButton(static_cast<input::MouseButton>(button), action != GLFW_RELEASE);
+    });
+
+    glfwSetCursorPosCallback(window_, [](GLFWwindow* window, double x, double y) {
+        auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        data->input->SetMousePosition({x, y});
+    });
+
+    glfwSetScrollCallback(window_, [](GLFWwindow* window, double x_offset, double y_offset) {
+        auto* const data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        data->input->SetScrollOffset({x_offset, y_offset});
     });
 
     glfwMakeContextCurrent(window_);

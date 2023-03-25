@@ -1,7 +1,10 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <string>
+
+#include "core/input/input.h"
 
 struct GLFWwindow;
 
@@ -11,11 +14,13 @@ struct WindowData {
     std::uint32_t width;
     std::uint32_t height;
     std::string title;
+    std::shared_ptr<input::Input> input;
 };
 
 class Window {
 public:
-    Window(std::uint32_t width, std::uint32_t height, const std::string& title);
+    Window(std::uint32_t width, std::uint32_t height, const std::string& title,
+           const std::shared_ptr<input::Input>& input);
     ~Window();
 
     Window(const Window&)            = delete;
