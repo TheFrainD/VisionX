@@ -47,4 +47,6 @@ void VertexBuffer::Release() noexcept {
     id_ = 0;
 }
 
+std::uint32_t VertexBuffer::GetId() const noexcept { return id_; }
+
 }  // namespace vx::ogl

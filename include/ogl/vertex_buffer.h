@@ -35,6 +35,8 @@ public:
     void SetData(const void* data, std::size_t size) noexcept;
     void SubData(const void* data, std::size_t offset, std::size_t size) noexcept;
 
+    [[nodiscard]] std::uint32_t GetId() const noexcept;
+
 private:
     std::uint32_t id_ {};
     std::size_t size_;
